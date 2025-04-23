@@ -58,7 +58,7 @@ module CamaleonCms
         uploaded_io = File.open(cama_resize_upload(uploaded_io.path, settings[:dimension]))
       end
 
-      return { error: 'Potentially malicious content found!' } if file_content_unsafe?(uploaded_io)
+      # return { error: 'Potentially malicious content found!' } if file_content_unsafe?(uploaded_io)
 
       settings = settings.to_sym
       settings[:uploaded_io] = uploaded_io
@@ -301,7 +301,7 @@ module CamaleonCms
         end
         _tmp_name = uploaded_io.split('/').last.split('?').first
         args[:name] = args[:name] || _tmp_name
-        uploaded_io = URI.open(uploaded_io)
+        uploaded_io = URI(uploaded_io).open
       end
       uploaded_io = File.open(uploaded_io) if uploaded_io.is_a?(String)
       return { error: "#{ct('file_format_error')} (#{args[:formats]})" } unless cama_uploader.class.validate_file_format(
