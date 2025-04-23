@@ -301,7 +301,7 @@ module CamaleonCms
         end
         _tmp_name = uploaded_io.split('/').last.split('?').first
         args[:name] = args[:name] || _tmp_name
-        uploaded_io = URI(uploaded_io).open
+        uploaded_io = URI.open(uploaded_io)
       end
       uploaded_io = File.open(uploaded_io) if uploaded_io.is_a?(String)
       return { error: "#{ct('file_format_error')} (#{args[:formats]})" } unless cama_uploader.class.validate_file_format(
